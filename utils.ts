@@ -20,11 +20,11 @@ export function presentDayResults<InputType>(
 ) {
   const dayNumber = day.toString().padStart(2, "0");
 
-  console.log(
-    `--------- The Advent of Code 2024 - Day ${dayNumber} ---------\n`
-  );
+  console.log(`-- The Advent of Code 2024 - Day ${dayNumber} --\n`);
   const input = inputFunction();
+  console.log("-------------");
   console.log("|| Part 01 ||");
+  console.log("-------------");
 
   let startTime = performance.now();
   const part1Result = part1(input);
@@ -34,7 +34,10 @@ export function presentDayResults<InputType>(
   console.log(
     "Execution time: " + (endTime - startTime).toPrecision(2) + "ms\n"
   );
+
+  console.log("-------------");
   console.log("|| Part 02 ||");
+  console.log("-------------");
 
   startTime = performance.now();
   const part2Result = part2(input);
