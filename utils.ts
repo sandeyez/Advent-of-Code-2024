@@ -21,14 +21,21 @@ export function presentDayResults<InputType>(
   const dayNumber = day.toString().padStart(2, "0");
 
   console.log(`-- The Advent of Code 2024 - Day ${dayNumber} --\n`);
+  console.log("Reading input...");
+
+  let startTime = performance.now();
   const input = inputFunction();
+  let endTime = performance.now();
+
+  console.log("Input read in " + (endTime - startTime).toPrecision(2) + "ms\n");
+
   console.log("-------------");
   console.log("|| Part 01 ||");
   console.log("-------------");
 
-  let startTime = performance.now();
+  startTime = performance.now();
   const part1Result = part1(input);
-  let endTime = performance.now();
+  endTime = performance.now();
 
   console.log("Result: " + part1Result);
   console.log(
