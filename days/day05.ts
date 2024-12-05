@@ -63,10 +63,7 @@ function part1({ numbers, orderingRules }: ParsedInput) {
       }
     }
 
-    console.log(`Line ${i} is valid`);
     const middleNumber = numberLine.at(Math.floor(numberLine.length / 2)) ?? 0;
-
-    console.log(middleNumber);
 
     return acc + middleNumber;
   }, 0);
