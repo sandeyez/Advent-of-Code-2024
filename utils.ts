@@ -54,3 +54,8 @@ export function presentDayResults<InputType>(
   console.log("Execution time: " + (endTime - startTime).toPrecision(2) + "ms");
   console.log("--------------------------------------");
 }
+
+export type Point = {
+  x: number;
+  y: number;
+};
