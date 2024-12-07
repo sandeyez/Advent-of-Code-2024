@@ -94,71 +94,6 @@ function getNextDirection(currentDirection: Direction): Direction {
   }
 }
 
-function generateStepsBetweenPoints(
-  pointA: Point,
-  pointB: Point,
-  direction: Direction
-): Point[] {
-  const { x: directionX, y: directionY } = directionToVectorMap[direction];
-
-  let steps: Point[] = [];
-
-  if (directionX === 0) {
-    for (let i = pointA.y; i !== pointB.y; i += directionY) {
-      steps.push({ x: pointA.x, y: i });
-    }
-  } else {
-    for (let i = pointA.x; i !== pointB.x; i += directionX) {
-      steps.push({ x: i, y: pointA.y });
-    }
-  }
-
-  return steps;
-}
-
-function getMaxPointInDirection(
-  point: Point,
-  direction: Direction,
-  gridSize: [number, number]
-): Point {
-  const { x: directionX, y: directionY } = directionToVectorMap[direction];
-  const [maxX, maxY] = gridSize;
-
-  let maxPoint: Point = { ...point };
-
-  if (directionX === 0) {
-    maxPoint.y = directionY < 0 ? 0 : maxY;
-  } else {
-    maxPoint.x = directionX < 0 ? 0 : maxX;
-  }
-
-  return maxPoint;
-}
-
-function printVisitedPoints(
-  visitedPoints: Set<string>,
-  obstacles: Point[],
-  gridSize: [number, number]
-) {
-  const [maxX, maxY] = gridSize;
-
-  for (let i = 0; i <= maxY; i++) {
-    let line = "";
-
-    for (let j = 0; j <= maxX; j++) {
-      if (obstacles.some(({ x, y }) => x === j && y === i)) {
-        line += "#";
-      } else if (visitedPoints.has(pointToString({ x: j, y: i }))) {
-        line += "X";
-      } else {
-        line += ".";
-      }
-    }
-
-    console.log(line);
-  }
-}
-
 function pointToString(point: Point) {
   return `${point.x},${point.y}`;
 }
@@ -238,7 +173,7 @@ function part2(input: ParsedInput) {
   const foundLoops = visitedPositions.reduce((acc, newObstaclePosition) => {
     const newObstacles = [...obstacles, newObstaclePosition];
     const visitedStates: {
-      position: string;
+      position: Point;
       direction: Direction;
     }[] = [];
 
@@ -268,14 +203,15 @@ function part2(input: ParsedInput) {
       if (
         visitedStates.some(
           (state) =>
-            state.position === pointToString(position) &&
+            state.position.x === position.x &&
+            state.position.y === position.y &&
             state.direction === direction
         )
       ) {
         return acc + 1;
       }
 
-      visitedStates.push({ position: pointToString(position), direction });
+      visitedStates.push({ position, direction });
     }
 
     return acc;
