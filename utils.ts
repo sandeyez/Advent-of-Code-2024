@@ -55,7 +55,18 @@ export function presentDayResults<InputType>(
   console.log("--------------------------------------");
 }
 
+// Point Utils
 export type Point = {
   x: number;
   y: number;
 };
+
+export function pointToString(point: Point) {
+  return `${point.x},${point.y}`;
+}
+
+export function stringToPoint(pointString: string): Point {
+  const [x, y] = pointString.split(",").map(Number);
+
+  return { x, y };
+}

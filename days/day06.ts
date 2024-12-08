@@ -1,4 +1,10 @@
-import { getInputForDay, presentDayResults, type Point } from "../utils";
+import {
+  getInputForDay,
+  pointToString,
+  presentDayResults,
+  stringToPoint,
+  type Point,
+} from "../utils";
 
 const DAY = 6;
 
@@ -92,16 +98,6 @@ function getNextDirection(currentDirection: Direction): Direction {
     case "W":
       return "N";
   }
-}
-
-function pointToString(point: Point) {
-  return `${point.x},${point.y}`;
-}
-
-function stringToPoint(pointString: string): Point {
-  const [x, y] = pointString.split(",").map(Number);
-
-  return { x, y };
 }
 
 function traverseGrid(
