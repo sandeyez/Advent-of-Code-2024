@@ -148,8 +148,6 @@ function part2({ antennas, sizeX, sizeY }: ParsedInput) {
     }
   });
 
-  printMap(antennas, antinodeLocations, sizeX, sizeY);
-
   return antinodeLocations.size;
 }
 
