@@ -70,3 +70,7 @@ export function stringToPoint(pointString: string): Point {
 
   return { x, y };
 }
+
+export function addPoints(a: Point, b: Point): Point {
+  return { x: a.x + b.x, y: a.y + b.y };
+}
