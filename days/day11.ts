@@ -39,9 +39,7 @@ function part1(input: ParsedInput) {
 const NUMBER_OF_ITERATIONS_PART_2 = 75;
 
 function part2(stones: ParsedInput) {
-  const stoneCounts = new Map<number, number>(
-    stones.map((stone) => [stone, 1])
-  );
+  let stoneCounts = new Map<number, number>(stones.map((stone) => [stone, 1]));
 
   for (let i = 0; i < NUMBER_OF_ITERATIONS_PART_2; i++) {
     const newStoneCounts = new Map<number, number>();
@@ -76,10 +74,7 @@ function part2(stones: ParsedInput) {
       }
     }
 
-    stoneCounts.clear();
-    for (const [stone, count] of newStoneCounts.entries()) {
-      stoneCounts.set(stone, count);
-    }
+    stoneCounts = newStoneCounts;
   }
 
   return Array.from(stoneCounts.values()).reduce(
