@@ -1,11 +1,14 @@
 {
   "name": "advent-of-code-2024",
   "module": "index.ts",
-  "type": "module",
   "devDependencies": {
     "@types/bun": "latest"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
+  },
+  "type": "module",
+  "dependencies": {
+    "yalps": "^0.5.6"
   }
 }
