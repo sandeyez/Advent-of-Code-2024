@@ -71,6 +71,15 @@ export function stringToPoint(pointString: string): Point {
   return { x, y };
 }
 
-export function addPoints(a: Point, b: Point): Point {
-  return { x: a.x + b.x, y: a.y + b.y };
+export function addPoints(a: Point, b: Point, repeat = 1): Point {
+  return { x: a.x + b.x * repeat, y: a.y + b.y * repeat };
 }
+
+export type Direction = "N" | "E" | "S" | "W";
+
+export const directionToVectorMap: Record<Direction, Point> = {
+  N: { x: 0, y: -1 },
+  E: { x: 1, y: 0 },
+  S: { x: 0, y: 1 },
+  W: { x: -1, y: 0 },
+};
