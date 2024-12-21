@@ -61,7 +61,7 @@ export type Point = {
   y: number;
 };
 
-export function pointToString(point: Point) {
+export function pointToString(point: Point): `${number},${number}` {
   return `${point.x},${point.y}`;
 }
 
@@ -75,6 +75,7 @@ export function addPoints(a: Point, b: Point, repeat = 1): Point {
   return { x: a.x + b.x * repeat, y: a.y + b.y * repeat };
 }
 
+// Direction Utils
 export type Direction = "N" | "E" | "S" | "W";
 
 export const directionToVectorMap: Record<Direction, Point> = {
@@ -83,3 +84,36 @@ export const directionToVectorMap: Record<Direction, Point> = {
   S: { x: 0, y: 1 },
   W: { x: -1, y: 0 },
 };
+
+const directions: Direction[] = ["N", "E", "S", "W"];
+
+export function getNextDirection(
+  direction: Direction,
+  turn: "L" | "R"
+): Direction {
+  const currentIndex = directions.indexOf(direction);
+
+  if (turn === "L") {
+    return directions[(currentIndex + 3) % 4];
+  }
+
+  return directions[(currentIndex + 1) % 4];
+}
+
+export function getPointNeighbours(point: Point): Point[] {
+  return Object.values(directionToVectorMap).map((vector) =>
+    addPoints(point, vector)
+  );
+}
+
+// Grid Utils
+export type Grid<T> = T[][];
+
+export function createGrid<T>(
+  lines: string[],
+  mapper: (char: string, x: number, y: number) => T
+): Grid<T> {
+  return lines.map((line, y) =>
+    line.split("").map((char, x) => mapper(char, x, y))
+  );
+}
