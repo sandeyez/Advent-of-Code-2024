@@ -121,3 +121,74 @@ export function createGrid<T>(
     line.split("").map((char, x) => mapper(char, x, y))
   );
 }
+
+// Pathfinding Utils
+export type KeyedMatrix<T> = Record<string, Record<string, T>>;
+
+export type KeyedPoint = Point & { key: string };
+
+function getNodeKey(node: KeyedPoint): string {
+  return node.key ?? pointToString(node);
+}
+
+// Algorithm to find shortest paths between all pairs of nodes
+export function FloydWarshall(
+  nodes: KeyedPoint[],
+  getNeighbours: (node: KeyedPoint) => KeyedPoint[],
+  getEdgeWeight: (from: KeyedPoint, to: KeyedPoint) => number
+): {
+  distances: KeyedMatrix<number>;
+  next: KeyedMatrix<string>;
+} {
+  const dist: KeyedMatrix<number> = {};
+  const next: KeyedMatrix<string> = {};
+
+  for (const node of nodes) {
+    dist[getNodeKey(node)] = {};
+    next[getNodeKey(node)] = {};
+
+    for (const node1 of nodes) {
+      dist[getNodeKey(node)][getNodeKey(node1)] = node === node1 ? 0 : Infinity;
+    }
+    for (const neighbour of getNeighbours(node)) {
+      dist[getNodeKey(node)][getNodeKey(neighbour)] = getEdgeWeight(
+        node,
+        neighbour
+      );
+      next[getNodeKey(node)][getNodeKey(neighbour)] = getNodeKey(neighbour);
+    }
+  }
+
+  const stringifiedNodes = nodes.map(getNodeKey);
+
+  for (const k of stringifiedNodes) {
+    for (const i of stringifiedNodes) {
+      for (const j of stringifiedNodes) {
+        if (dist[i][k] + dist[k][j] < dist[i][j]) {
+          dist[i][j] = dist[i][k] + dist[k][j];
+          next[i][j] = next[i][k];
+        }
+      }
+    }
+  }
+
+  return { distances: dist, next };
+}
+
+export function reconstructPath(
+  start: KeyedPoint,
+  end: KeyedPoint,
+  next: KeyedMatrix<string>
+): string[] {
+  const path: string[] = [getNodeKey(start)];
+
+  let current = getNodeKey(start);
+  const endKey = getNodeKey(end);
+
+  while (current !== endKey || current !== endKey) {
+    current = next[current][getNodeKey(end)];
+    path.push(current);
+  }
+
+  return path;
+}
