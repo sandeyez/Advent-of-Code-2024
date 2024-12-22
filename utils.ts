@@ -75,6 +75,10 @@ export function addPoints(a: Point, b: Point, repeat = 1): Point {
   return { x: a.x + b.x * repeat, y: a.y + b.y * repeat };
 }
 
+export function manhattanDistance(a: Point, b: Point): number {
+  return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
+}
+
 // Direction Utils
 export type Direction = "N" | "E" | "S" | "W";
 
@@ -85,7 +89,7 @@ export const directionToVectorMap: Record<Direction, Point> = {
   W: { x: -1, y: 0 },
 };
 
-const directions: Direction[] = ["N", "E", "S", "W"];
+export const directions: Direction[] = ["N", "E", "S", "W"];
 
 export function getNextDirection(
   direction: Direction,
